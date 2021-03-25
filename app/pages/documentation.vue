@@ -1,10 +1,9 @@
 <template>
   <div>
-    <Navbar />
-    <Banner />
-  <div class="container-fluid">
+  <Navbar />
+  <div class="container">
     <div>
-      
+       <Logo />
       <h1 class="title">
         app
       </h1>
@@ -22,7 +21,7 @@
 </template>
 
 <script>
-let querystring = require('querystring');
+var querystring = require('querystring');
 export default {
   data: function () {
     return {

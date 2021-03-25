@@ -1,0 +1,28 @@
+body{
+    background-color: black;
+}
+.navbar{
+    position: fixed;
+    width: 100%;
+}
+
+.btn-primary{
+    background-color: #1ABD53;
+    border:2px solid #1ABD53;
+}
+
+.btn-primary:hover{
+    background-color: transparent;
+    border: 2px solid #1ABD53;
+    color: #1ABD53;
+}
+.btn-secundary{
+    background-color: white;
+    border: 2px solid white;
+}
+.btn-secundary:hover{
+
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
