@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Classes;
+namespace App\Classes\Spotify;
 
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
 
-class Auth
+class User
 {
-
-    private $clientId;
+     private $clientId;
     private $clientSecret;
     private $apiUrl;
 
@@ -17,43 +16,26 @@ class Auth
     {
         $this->clientId = config('services.spotify.client_id');
         $this->clientSecret = config('services.spotify.client_secret');
+        $this->redirectUri = config('services.spotify.redirect_uri');
         $this->apiUrl = 'https://accounts.spotify.com/api/token';
     }
-
-    private function generateAccessToken(): void
+    public function getUser()
     {
         try {
             $client = new Client();
-            $response = $client->post($this->apiUrl, [
+            $response = $client->get('https://api.spotify.com/v1/me', [
                 'headers' => [
                     'Content-Type' => 'application/x-www-form-urlencoded',
                     'Accepts' => 'application/json',
-                    'Authorization' => 'Basic '.base64_encode($this->clientId.':'.$this->clientSecret),
-                ],
-                'form_params' => [
-                    'grant_type' => 'client_credentials',
+                    'Authorization' => 'Bearer '. Cache::get('accessToken'),
                 ],
             ]);
         } catch (RequestException $e) {
             $errorResponse = json_decode($e->getResponse()->getBody()->getContents());
             $status = $e->getCode();
             $message = $errorResponse->error;
-
-            throw new Exception($message, $status, $errorResponse);
         }
 
-        $body = json_decode((string) $response->getBody());
-
-        Cache::remember('spotifyAccessToken', $body->expires_in, function () use ($body) {
-            return $body->access_token;
-        });
-    }
-
-    public function getAccessToken(): string
-    {
-         if (! Cache::has('spotifyAccessToken')) {
-             $this->generateAccessToken();
-         }
-         return Cache::get('spotifyAccessToken');
+        return json_decode((string) $response->getBody());
     }
 }

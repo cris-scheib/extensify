@@ -2,38 +2,41 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Classes\Auth;
+use App\Classes\Spotify\Auth;
+use App\Classes\Spotify\User as SpotifyUser;
+use App\Models\User;
 
 class AuthController extends Controller
 {
 
-    public function __construct()
+    private $userModel;
+
+    public function __construct(User $userModel)
     {
-       
+        $this->userModel = $userModel;
     }
 
     public function Authenticate(Request $request)
     {
         $auth = new Auth();
         $code = $request->input('code'); 
-        $state = $request->input('state');   
-        $token = $auth->getAccessToken();    
-        dd($code, $state, $token);
-    }
+        $token = $auth->getAccessToken($code);
+        return redirect()->route('login');
 
-    public function Keys()
+    }
+    public function Login()
     {
-        $callback = app()->environment('local') ? config('app.url') .':8000' : config('app.url') ;
-        $data = [
-            'scope' => 'user-read-email user-read-recently-played 
-                        user-read-playback-state user-top-read 
-                        user-read-currently-playing user-follow-read 
-                        user-library-read',
-            'client_id' => config('services.spotify.client_id'),
-            'callback' =>   $callback . '/api/auth', 
-        ];
-        return response($data);
-        
+        $user = new SpotifyUser(); 
+        $data = $user->getuser();
+        $me = $this->userModel::create([
+            'name' => $data->display_name,
+            'email' => $data->email,
+            'spotify_id' => $data->id,
+            'product' => $data->product,
+            'image' => empty($data->images) ? null : $data->images[0],
+        ]);
+
         
     }
+   
 }

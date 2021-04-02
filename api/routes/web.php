@@ -20,7 +20,7 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'auth'], function () use ($router) {
-        $router->get('/',  [ 'as' => 'auth', 'uses' => 'AuthController@Authenticate']);
-        $router->get('/keys',  [ 'as' => 'keys', 'uses' => 'AuthController@Keys']);
+        $router->post('/',  [ 'as' => 'auth', 'uses' => 'AuthController@Authenticate']);
+        $router->get('/login',  [ 'as' => 'login', 'uses' => 'AuthController@Login']);
     });
 });
