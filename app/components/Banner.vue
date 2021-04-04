@@ -5,8 +5,8 @@
             <h1 class="banner-title">Collect, organize and 
                 analyze your music preferences</h1>
                 <div class="actions">
-                    <LoginButton title="Try it" />
-                    <b-link class="btn btn-secundary" to="/about">About</b-link>
+                    <NuxtLink class="btn btn-primary" target="_blank" to="/login">Try it</NuxtLink>
+                    <NuxtLink class="btn btn-secundary" to="/about">About</NuxtLink>
                 </div>
         </div>
     </div>

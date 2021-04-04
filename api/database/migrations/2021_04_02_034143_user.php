@@ -17,7 +17,7 @@ class User extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email');
-            $table->string('spotify_id');
+            $table->string('spotify_id')->unique();
             $table->string('product');
             $table->string('image')->nullable();
             $table->timestamps();

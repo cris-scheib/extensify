@@ -78,7 +78,9 @@ $app->configure('database');
     App\Http\Middleware\CorsMiddleware::class
  ]);
  
-
+ $app->routeMiddleware([
+    'auth' => App\Http\Middleware\JwtMiddleware::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

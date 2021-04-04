@@ -6,9 +6,11 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
+        "firebase/php-jwt": "^5.2",
         "guzzlehttp/guzzle": "^7.3",
         "illuminate/redis": "^8.34",
-        "laravel/lumen-framework": "^8.0"
+        "laravel/lumen-framework": "^8.0",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

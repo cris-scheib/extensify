@@ -1,9 +1,5 @@
 body{
-    background-color: black;
-}
-.navbar{
-    position: fixed;
-    width: 100%;
+    background-color: #121212;
 }
 
 .btn-primary{
@@ -11,18 +7,42 @@ body{
     border:2px solid #1ABD53;
 }
 
-.btn-primary:hover{
-    background-color: transparent;
-    border: 2px solid #1ABD53;
-    color: #1ABD53;
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active{
+    background-color: transparent !important;
+    border: 2px solid #1ABD53 !important;
+    color: #1ABD53 !important;
+    box-shadow: unset !important;
 }
 .btn-secundary{
     background-color: white;
     border: 2px solid white;
 }
-.btn-secundary:hover{
+.btn-secundary:hover, .btn-secundary:focus, .btn-secundary:active{
+ 
+    background-color: transparent !important; 
+    color: white !important;
+    border: 2px solid white !important;
+    box-shadow: unset !important;
+}
 
-    background-color: transparent;
+.dropdown-toggle, .dropdown-toggle:hover, .dropdown-toggle:active{
+    border-radius: 2em;
+    background-color: #0a0a0a !important;
+    border-color: #0a0a0a  !important;
+}
+
+#dropdown-header .dropdown-menu {
+    left: -2.5rem !important;
+    background-color: #202020;
+    border-color: #202020;
+    border-radius: 2px;
+}
+#dropdown-header .dropdown-item{
     color: white;
-    border: 2px solid white;
+}
+#dropdown-header  .dropdown-item:hover, #dropdown-header  .dropdown-item:focus {
+    color: white;
+    text-decoration: none;
+    background-color: #202020;
+    
 }
