@@ -20,7 +20,13 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'auth'], function () use ($router) {
-        $router->get('/',  [ 'as' => 'auth', 'uses' => 'AuthController@Authenticate']);
-        $router->get('/keys',  [ 'as' => 'keys', 'uses' => 'AuthController@Keys']);
+        $router->post('/',  [ 'as' => 'auth', 'uses' => 'AuthController@Authenticate']);
+        $router->get('/login',  [ 'as' => 'login', 'uses' => 'AuthController@Login']);
+    });
+    $router->group(['prefix' => 'artists'], function () use ($router) {
+        $router->get('/',  [ 'as' => 'artists', 'uses' => 'ArtistsController@Artists']);
+    });
+    $router->group(['prefix' => 'tracks'], function () use ($router) {
+        $router->get('/',  [ 'as' => 'tracks', 'uses' => 'TracksController@Tracks']);
     });
 });

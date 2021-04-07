@@ -78,7 +78,9 @@ $app->configure('database');
     App\Http\Middleware\CorsMiddleware::class
  ]);
  
-
+ $app->routeMiddleware([
+    'auth' => App\Http\Middleware\JwtMiddleware::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -91,7 +93,7 @@ $app->configure('database');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

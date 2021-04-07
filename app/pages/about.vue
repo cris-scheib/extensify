@@ -1,10 +1,9 @@
 <template>
   <div>
-    <Navbar />
-    <Banner />
-  <div class="container-fluid">
+  <Navbar />
+  <div class="container">
     <div>
-      
+       <Logo />
       <h1 class="title">
         app
       </h1>
@@ -16,6 +15,7 @@
 
 <script>
 export default {
+  
  
 }
 </script>
