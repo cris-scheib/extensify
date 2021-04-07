@@ -4,23 +4,20 @@ namespace App\Classes\Spotify;
 
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cache;
 
-class User
+class Request
 {
+    private $client;
+
     public function __construct()
     {
+        $this->client = new Client();
     }
-    public function getUser()
+    public function get($url)
     {
         try {
-            $client = new Client();
-            $response = $client->get('https://api.spotify.com/v1/me', [
-                'headers' => [
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                    'Accepts' => 'application/json',
-                    'Authorization' => 'Bearer '. Cache::get('accessToken'),
-                ],
+            $response = $this->client->get($url, [
+                'headers' => $this->header(),
             ]);
         } catch (RequestException $e) {
             $errorResponse = json_decode(
@@ -34,5 +31,14 @@ class User
         }
 
         return json_decode((string) $response->getBody());
+    }
+
+    private function header()
+    {
+        return [
+            'Content-Type' => 'application/json',
+            'Accepts' => 'application/json',
+            'Authorization' => 'Bearer ' . Cache::get('accessToken'),
+        ];
     }
 }

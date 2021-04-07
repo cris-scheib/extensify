@@ -5,10 +5,9 @@ namespace App\Classes\Spotify;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Cache;
-
+use Exception;
 class Auth
 {
-
     private $clientId;
     private $clientSecret;
     private $apiUrl;
@@ -68,6 +67,8 @@ class Auth
         Cache::remember('refreshToken', $body->expires_in, function () use ($body) {
             return $body->refresh_token;
         });
+
+        $body = json_decode((string) $response->getBody());
     }
 
 

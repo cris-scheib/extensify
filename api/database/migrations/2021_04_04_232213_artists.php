@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class User extends Migration
+class Artists extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,11 @@ class User extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('artists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email');
+            $table->string('name')->unique();
             $table->string('spotify_id')->unique();
-            $table->string('product');
             $table->string('image')->nullable();
-            $table->string('token')->nullable();
-            $table->string('refresh_token')->nullable();
-            $table->timestamp('expiration_token')->nullable();
-            $table->timestamp('last_sync')->nullable();
             $table->timestamps();
         });
     }
@@ -35,6 +29,6 @@ class User extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::drop('artists');
     }
 }
