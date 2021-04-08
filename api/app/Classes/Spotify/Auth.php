@@ -33,7 +33,7 @@ class Auth
                     ],
                     'form_params' => [
                         'grant_type' => 'refresh_token',
-                        'refreshToken' => $refreshToken,
+                        'refreshToken' => Cache::get('refreshToken'),
                     ],
                 ]);
             }else{

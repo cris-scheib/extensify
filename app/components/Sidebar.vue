@@ -1,32 +1,32 @@
 <template>
-     <nav>
-        <b-nav vertical>
-        <b-nav-item to="dashboard">Dashboard</b-nav-item>
-        </b-nav>
-
-       </nav>
+  <nav>
+    <b-nav vertical>
+      <h3 class="title">Extesify</h3>
+      <b-nav-item to="dashboard">Dashboard</b-nav-item>
+      <b-nav-item to="artists">Artists</b-nav-item>
+      <b-nav-item to="tracks">Tracks</b-nav-item>
+    </b-nav>
+  </nav>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style scoped>
-nav {
-  height: 100vh;
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 .nav {
-      background-color: #0a0a0a;
-    width: 13rem;
+  background-color: #0a0a0a;
+  width: 13rem;
+  position: fixed;
+  height: 100vh;
 }
 .nav-link {
   color: white;
   padding: 1rem 1rem;
+}
+.title {
+  color: white;
+  padding: 0.5em;
+  font-family: "Raleway", sans-serif;
 }
 </style>

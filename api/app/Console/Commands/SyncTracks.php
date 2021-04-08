@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Helpers;
 use Illuminate\Console\Command;
+use App\Classes\Tracks;
+use App\Models\User;
 
 class SyncTracks extends Command
 {
@@ -12,7 +14,7 @@ class SyncTracks extends Command
      *
      * @var string
      */
-    protected $signature = 'synchronize:tracks';
+    protected $signature = 'sync:tracks';
 
     /**
      * The console command description.
@@ -38,8 +40,17 @@ class SyncTracks extends Command
      *
      * @return mixed
      */
-    public function handle(){
-        
-
+    public function handle()
+    {
+        $tracks = new Tracks();
+        $users = User::select(
+            'id',
+            'token',
+            'refresh_token',
+            'expiration_token'
+        )->get();
+        foreach ($users as $user) {
+            $tracks->syncTracks($user);
+        }
     }
 }

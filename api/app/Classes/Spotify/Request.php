@@ -13,11 +13,11 @@ class Request
     {
         $this->client = new Client();
     }
-    public function get($url)
+    public function get($token, $url)
     {
         try {
             $response = $this->client->get($url, [
-                'headers' => $this->header(),
+                'headers' => $this->header($token),
             ]);
         } catch (RequestException $e) {
             $errorResponse = json_decode(
@@ -33,12 +33,12 @@ class Request
         return json_decode((string) $response->getBody());
     }
 
-    private function header()
+    private function header($token)
     {
         return [
             'Content-Type' => 'application/json',
             'Accepts' => 'application/json',
-            'Authorization' => 'Bearer ' . Cache::get('accessToken'),
+            'Authorization' => 'Bearer ' . $token,
         ];
     }
 }

@@ -1,50 +1,66 @@
 <template>
-    <div>
+  <div>
     <Sidebar />
     <main>
       <header>
-          <div class="d-flex">
-            <b-dropdown id="dropdown-header" :text="user" class="m-md-2">
-                <b-dropdown-item>Account <b-icon icon="box-arrow-up-right"></b-icon></b-dropdown-item>
-                <b-dropdown-item>Logout</b-dropdown-item>
-            </b-dropdown>
-            </div>
+        <div class="d-flex">
+          <b-dropdown id="dropdown-header" class="m-2">
+            <template #button-content>
+              <b-icon icon="star-fill" class="star-fill"></b-icon> {{ user }}
+            </template>
+            <b-dropdown-item :href="me" target="_blank">
+              Account
+              <b-icon icon="box-arrow-up-right" class="account-icon"></b-icon
+            ></b-dropdown-item>
+            <b-dropdown-item to="logout">Logout</b-dropdown-item>
+          </b-dropdown>
+        </div>
       </header>
-      
-        <slot />
-     
+
+      <slot />
+
       <footer></footer>
-      </main>
-    </div>
+    </main>
+  </div>
 </template>
 
 <script>
-import Sidebar from './Sidebar.vue'
+import Sidebar from "./Sidebar.vue";
 export default {
   components: { Sidebar },
   data() {
-      return {
-          user:  this.$auth.$storage.getUniversal('name'),
-          image: this.$auth.$storage.getUniversal('image'),
-          id: this.$auth.$storage.getUniversal('id')
-      }
+    return {
+      user: this.$auth.$storage.getUniversal("name"),
+      image: this.$auth.$storage.getUniversal("image"),
+      id: this.$auth.$storage.getUniversal("id"),
+      me:
+        "https://open.spotify.com/user/" +
+        this.$auth.$storage.getUniversal("id"),
+    };
   },
-
-}
+};
 </script>
 
 <style scoped>
+main {
+  height: 100vh;
+  margin-left: 13em;
+}
+header {
+  background-color: #181818;
+}
+#dropdown-header {
+  margin-left: auto !important;
+  margin-right: 1em !important;
+}
+.star-fill {
+  color: #ffd700;
+  width: 0.5em;
+}
+.account-icon {
+  font-size: 1em !important;
+  margin-left: 0.5em;
+}
 
-main{
-        height: 100vh;
-    margin-left: 13em;
-}
-header{
-    background-color: #181818;
-}
-#dropdown-header{    
-    margin-left: auto !important;
-    margin-right: 1em !important;
-}
 
 </style>

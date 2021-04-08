@@ -18,7 +18,7 @@ class TracksController extends Controller
 
     public function Tracks()
     {
-        $tracks = $this->trackModel->orderby('name')->with('artist.genres')->get();
+        $tracks = $this->trackModel->with('artist.genres')->get();
         return response()->json($tracks);
     }
 }
