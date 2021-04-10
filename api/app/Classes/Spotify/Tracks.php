@@ -13,9 +13,10 @@ class Tracks
         $this->request = new Request();
     }
 
-    public function getTracks()
+    public function getTracks($token)
     {
         return $this->request->get(
+            $token,
             'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=15&offset=0'
         );
     }

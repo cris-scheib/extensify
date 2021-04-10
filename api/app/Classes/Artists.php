@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 use App\Models\ArtistGenre;
+use App\Models\UserArtist;
 use App\Models\Artist;
 use App\Models\Genre;
 use App\Classes\Spotify\Artists as SpotifyArtists;
@@ -13,20 +14,18 @@ class Artists
     private $genreModel;
     private $artistGenreModel;
 
-    public function __construct(
-        Artist $artistModel,
-        Genre $genreModel,
-        ArtistGenre $artistGenreModel
-    ) {
-        $this->artistModel = $artistModel;
-        $this->genreModel = $genreModel;
-        $this->artistGenreModel = $artistGenreModel;
+    public function __construct()
+    {
+        $this->artistModel = new Artist();
+        $this->genreModel = new Genre();
+        $this->artistGenreModel = new ArtistGenre();
+        $this->userArtistModel = new UserArtist();
     }
 
-    public function getArtists()
+    public function syncArtists($user)
     {
         $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getArtists();
+        $data = $apotifyArtists->getArtists($user->token);
 
         DB::beginTransaction();
         try {
@@ -39,6 +38,16 @@ class Artists
                         'name' => $spotifyArtist->name,
                         'spotify_id' => $spotifyArtist->id,
                         'image' => $spotifyArtist->images[0]->url,
+                    ]);
+                }
+                $userArtist = $this->userArtistModel
+                    ->where('artist_id', $artist->id)
+                    ->where('user_id', $user->id)
+                    ->first();
+                if ($userArtist === null) {
+                    $userArtist = $this->userArtistModel->create([
+                        'artist_id' => $artist->id,
+                        'user_id' => $user->id,
                     ]);
                 }
                 foreach ($spotifyArtist->genres as $spotifyGenre) {

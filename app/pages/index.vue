@@ -2,15 +2,6 @@
   <div>
     <Navbar />
     <Banner />
-  <div class="container-fluid">
-    <div>
-      
-      <h1 class="title">
-        app
-      </h1>
-     
-    </div>
-  </div>
   </div>
 </template>
 

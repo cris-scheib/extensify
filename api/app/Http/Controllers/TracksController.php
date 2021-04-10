@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Classes\Tracks;
 use App\Models\Track;
+use Illuminate\Support\Facades\Cache;
 
 class TracksController extends Controller
 {
@@ -18,7 +19,13 @@ class TracksController extends Controller
 
     public function Tracks()
     {
-        $tracks = $this->trackModel->orderby('name')->with('artist.genres')->get();
+        $user = Cache::get('user');
+        $tracks = $this->trackModel
+            ->with('artist.genres')
+            ->whereHas('userTrack', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->get();
         return response()->json($tracks);
     }
 }

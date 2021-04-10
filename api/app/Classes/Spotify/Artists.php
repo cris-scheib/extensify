@@ -12,10 +12,10 @@ class Artists
     {
         $this->request = new Request();
     }
-    public function getArtists()
+    public function getArtists($token)
     {
-        return $this->request->get(
-            'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=15&offset=0'
+        return $this->request->get($token,
+            'https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=15&offset=0'
         );
     }
 }

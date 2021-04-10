@@ -79,7 +79,7 @@ $app->configure('database');
  ]);
  
  $app->routeMiddleware([
-    'auth' => App\Http\Middleware\JwtMiddleware::class,
+    'auth' => App\Http\Middleware\Authenticate::class,
 ]);
 /*
 |--------------------------------------------------------------------------

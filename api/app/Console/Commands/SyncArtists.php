@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Helpers;
 use Illuminate\Console\Command;
 use App\Classes\Artists;
-use App\Models\Artist;
+use App\Models\User;
 
 class SyncArtists extends Command
 {
@@ -14,7 +14,7 @@ class SyncArtists extends Command
      *
      * @var string
      */
-    protected $signature = 'synchronize:artists';
+    protected $signature = 'sync:artists';
 
     /**
      * The console command description.
@@ -40,11 +40,17 @@ class SyncArtists extends Command
      *
      * @return mixed
      */
-    public function handle(){
-
-        $this->artists->getArtists();
-
-        $artists = $this->artistModel->with('genres')->get();
-
+    public function handle()
+    {
+        $artists = new Artists();
+        $users = User::select(
+            'id',
+            'token',
+            'refresh_token',
+            'expiration_token'
+        )->get();
+        foreach ($users as $user) {
+            $artists->syncArtists($user);
+        }
     }
 }
