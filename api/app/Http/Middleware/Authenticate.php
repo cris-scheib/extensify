@@ -3,8 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
-
+use Illuminate\Support\Facades\Cache;
 class Authenticate
 {
     /**
@@ -20,9 +19,8 @@ class Authenticate
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
-    public function __construct(Auth $auth)
+    public function __construct()
     {
-        $this->auth = $auth;
     }
 
     /**
@@ -35,7 +33,7 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
+        if (!Cache::has('user')) {
             return response('Unauthorized.', 401);
         }
 

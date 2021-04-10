@@ -13,7 +13,7 @@
           Please try to login to the system and try again
         </h3>
         <div class="actions">
-          <NuxtLink class="btn btn-primary" target="_blank" to="/login"
+          <NuxtLink class="btn btn-primary" to="/login"
             >Login</NuxtLink
           >
         </div>

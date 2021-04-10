@@ -11,7 +11,6 @@ export default {
           code: this.$route.query.code,
         })
         .then((response) => {
-          this.$auth.$storage.setUniversal("token", response.token);
           this.$auth.$storage.setUniversal("name", response.name);
           this.$auth.$storage.setUniversal("image", response.image);
           this.$auth.$storage.setUniversal("id", response.id);

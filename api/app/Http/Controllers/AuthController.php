@@ -5,8 +5,6 @@ use Illuminate\Http\Request;
 use App\Classes\Spotify\Auth;
 use App\Classes\Spotify\User as SpotifyUser;
 use App\Models\User;
-use Firebase\JWT\JWT;
-use Firebase\JWT\ExpiredException;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
@@ -17,20 +15,6 @@ class AuthController extends Controller
     public function __construct(User $userModel)
     {
         $this->userModel = $userModel;
-    }
-
-    protected function jwt(User $user)
-    {
-        $payload = [
-            'iss' => 'lumen-jwt', // Issuer of the token
-            'sub' => $user->id, // Subject of the token
-            'iat' => time(), // Time when JWT was issued.
-            'exp' => time() + 60 * 60, // Expiration time
-        ];
-
-        // As you can see we are passing `JWT_SECRET` as the second parameter that will
-        // be used to decode the token in the future.
-        return JWT::encode($payload, env('JWT_SECRET'));
     }
 
     public function Authenticate(Request $request)
@@ -52,7 +36,7 @@ class AuthController extends Controller
                 'image' => empty($data->images) ? null : $data->images[0],
                 'token' => Cache::get('accessToken'),
                 'refresh_token' => Cache::get('refreshToken'),
-                'expiration_token' => Carbon::now(),
+                'expiration_token' => Carbon::now()->addHour(),
             ]);
         } else {
             $user->update([
@@ -61,21 +45,22 @@ class AuthController extends Controller
                 'image' => empty($data->images) ? null : $data->images[0],
                 'token' => Cache::get('accessToken'),
                 'refresh_token' => Cache::get('refreshToken'),
-                'expiration_token' => Carbon::now(),
+                'expiration_token' => Carbon::now()->addHour(),
             ]);
         }
+        Cache::remember('user', 3600, function () use ($user) {
+            return $user;
+        });
 
         return response()->json(
             [
-                'token' => $this->jwt($user),
+                'user' => $user->id,
                 'name' => $user->name,
                 'id' => $user->spotify_id,
                 'image' => $user->images,
                 'product' => $user->product,
-                
             ],
             200
         );
     }
-
 }

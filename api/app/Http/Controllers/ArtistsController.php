@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Classes\Artists;
 use App\Models\Artist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ArtistsController extends Controller
 {
@@ -18,7 +19,13 @@ class ArtistsController extends Controller
 
     public function Artists()
     {
-        $artists = $this->artistModel->orderby('name')->get();
+        $user = Cache::get('user');
+        $artists = $this->artistModel
+            ->whereHas('userArtist', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->orderby('name')
+            ->get();
         return response()->json($artists);
     }
 }

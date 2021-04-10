@@ -52,8 +52,10 @@ export default {
         .then((response) => {
           this.artists = response;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(({ response }) => {
+          if (response.status === 401) {
+            this.$router.push("/unauthorized");
+          }
         });
     },
   },
