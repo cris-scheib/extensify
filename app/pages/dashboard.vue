@@ -1,7 +1,8 @@
 <template>
   <div>
     <Layout>
-      <!-- <div>teste</div> -->
+      <RandomChart />
+
     </Layout>
   </div>
 </template>
