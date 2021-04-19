@@ -10,8 +10,10 @@
             </template>
             <b-dropdown-item :href="me" target="_blank">
               Account
-              <b-icon icon="box-arrow-up-right" class="account-icon"></b-icon
-            ></b-dropdown-item>
+              <b-icon icon="box-arrow-up-right" class="account-icon"></b-icon>
+            </b-dropdown-item>
+            <b-dropdown-item to="settings">Settings</b-dropdown-item>
+
             <b-dropdown-item to="logout">Logout</b-dropdown-item>
           </b-dropdown>
         </div>
@@ -42,9 +44,14 @@ export default {
 </script>
 
 <style scoped>
+.btn {
+  border-radius: 500px;
+  padding: 0.4rem 1.5rem;
+}
 main {
   height: 100vh;
   margin-left: 13em;
+  font-family: "Montserrat", sans-serif;
 }
 header {
   background-color: #181818;
@@ -61,5 +68,4 @@ header {
   font-size: 1em !important;
   margin-left: 0.5em;
 }
-
 </style>

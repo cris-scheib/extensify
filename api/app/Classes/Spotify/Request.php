@@ -4,6 +4,7 @@ namespace App\Classes\Spotify;
 
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
+use App\Classes\Spotify\Auth;
 
 class Request
 {
@@ -13,11 +14,11 @@ class Request
     {
         $this->client = new Client();
     }
-    public function get($token, $url)
+    public function get($user, $url)
     {
         try {
             $response = $this->client->get($url, [
-                'headers' => $this->header($token),
+                'headers' => $this->header($user),
             ]);
         } catch (RequestException $e) {
             $errorResponse = json_decode(
@@ -38,7 +39,16 @@ class Request
         return [
             'Content-Type' => 'application/json',
             'Accepts' => 'application/json',
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer ' . $this->token($user),
         ];
     }
+    private function token($user){
+        if($user->expiration_token < Carbon::now()){
+            $auth = new Auth();
+            $auth->refreshAccessToken($user);
+        }
+        return $user->token;
+    }
+
+
 }

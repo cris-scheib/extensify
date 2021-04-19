@@ -124,3 +124,12 @@ body {
 .sidebar.colapsed + main {
   margin-left: 3em;
 }
+
+.custom-select {
+  background-color: #181818;
+  border: 2px solid #121212;
+}
+
+p, label, select, h4{
+  color: white;
+}

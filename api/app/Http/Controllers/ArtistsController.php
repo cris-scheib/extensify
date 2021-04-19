@@ -17,15 +17,26 @@ class ArtistsController extends Controller
         $this->artistModel = $artistModel;
     }
 
-    public function Artists()
+    public function Get()
     {
         $user = Cache::get('user');
-        $artists = $this->artistModel
+
+        $userArtists = $this->artistModel
+            ->whereHas('userArtist', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->count();
+
+        if ($userArtists == 0) {
+            $this->artists->syncArtists($user);
+        }
+        $userArtists = $this->artistModel
             ->whereHas('userArtist', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             ->orderby('name')
             ->get();
-        return response()->json($artists);
+
+        return response()->json($userArtists);
     }
 }

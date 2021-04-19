@@ -37,6 +37,7 @@ export default {
 .nav-link {
   color: white;
   padding: 1rem 1rem;
+  font-family: 'Montserrat', sans-serif;
 }
 .title {
   color: white;

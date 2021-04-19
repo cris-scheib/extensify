@@ -33,7 +33,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         function () use ($router) {
             $router->get('/', [
                 'as' => 'artists',
-                'uses' => 'ArtistsController@Artists',
+                'uses' => 'ArtistsController@Get',
             ]);
         }
     );
@@ -42,7 +42,20 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         function () use ($router) {
             $router->get('/', [
                 'as' => 'tracks',
-                'uses' => 'TracksController@Tracks',
+                'uses' => 'TracksController@Get',
+            ]);
+        }
+    );
+    $router->group(
+        ['prefix' => 'settings', 'middleware' => 'auth'],
+        function () use ($router) {
+            $router->get('/', [
+                'as' => 'settingsGet',
+                'uses' => 'SettingsController@Get',
+            ]);
+            $router->post('/', [
+                'as' => 'settingsUpdate',
+                'uses' => 'SettingsController@Update',
             ]);
         }
     );

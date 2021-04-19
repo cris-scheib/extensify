@@ -17,15 +17,25 @@ class TracksController extends Controller
         $this->tracks = $tracks;
     }
 
-    public function Tracks()
+    public function Get()
     {
         $user = Cache::get('user');
-        $tracks = $this->trackModel
+
+        $userTracks = $this->trackModel
+            ->whereHas('userTrack', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->count();
+
+        if ($userTracks == 0) {
+            $this->tracks->syncTracks($user);
+        }
+        $userTracks = $this->trackModel
             ->with('artist.genres')
             ->whereHas('userTrack', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             ->get();
-        return response()->json($tracks);
+        return response()->json($userTracks);
     }
 }

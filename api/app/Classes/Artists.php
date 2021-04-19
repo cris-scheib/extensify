@@ -25,7 +25,7 @@ class Artists
     public function syncArtists($user)
     {
         $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getArtists($user->token);
+        $data = $apotifyArtists->getArtists($user);
 
         DB::beginTransaction();
         try {
