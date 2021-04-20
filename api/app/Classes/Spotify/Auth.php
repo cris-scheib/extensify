@@ -49,7 +49,7 @@ class Auth
             );
             $status = $e->getCode();
             $message = $errorResponse->error;
-            throw new Exception($message, $status, $errorResponse);
+            throw new Exception($message);
         }
 
         $body = json_decode((string) $response->getBody());

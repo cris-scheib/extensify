@@ -27,6 +27,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             'as' => 'login',
             'uses' => 'AuthController@Login',
         ]);
+        $router->get('/logout', [
+            'as' => 'logout',
+            'uses' => 'AuthController@Logout',
+        ]);
     });
     $router->group(
         ['prefix' => 'artists', 'middleware' => 'auth'],
@@ -50,11 +54,11 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         ['prefix' => 'settings', 'middleware' => 'auth'],
         function () use ($router) {
             $router->get('/', [
-                'as' => 'settingsGet',
+                'as' => 'settings.get',
                 'uses' => 'SettingsController@Get',
             ]);
             $router->post('/', [
-                'as' => 'settingsUpdate',
+                'as' => 'settings.update',
                 'uses' => 'SettingsController@Update',
             ]);
         }

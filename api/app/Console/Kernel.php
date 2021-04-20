@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->command('sync:artists')->everyFiveMinutes();
+        $schedule->command('sync:tracks')->everyFiveMinutes();
     }
 }
