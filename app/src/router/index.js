@@ -23,17 +23,25 @@ let router = new Router({
       },
     },
     {
-      path: "/artists",
-      name: "artists",
-      component: require("@/components/pages/Artists").default,
+      path: "/favorite-artists",
+      name: "favorite-artists",
+      component: require("@/components/pages/FavoriteArtists").default,
       meta: {
         auth: true,
       },
     },
     {
-      path: "/tracks",
-      name: "tracks",
-      component: require("@/components/pages/Tracks").default,
+      path: "/followed-artists",
+      name: "followed-artists",
+      component: require("@/components/pages/FollowedArtists").default,
+      meta: {
+        auth: true,
+      },
+    },
+    {
+      path: "/favorite-tracks",
+      name: "favorite-tracks",
+      component: require("@/components/pages/FavoriteTracks").default,
       meta: {
         auth: true,
       },

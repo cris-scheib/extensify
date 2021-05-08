@@ -1,15 +1,23 @@
 <template>
   <div>
     <Layout>
-      teste
+      <div class="genre-chart" >
+        <GenreChart />
+      </div>
     </Layout>
   </div>
 </template>
 
 <script>
-import Layout from '../partials/Layout';
+import Layout from "../partials/Layout";
+import GenreChart from "../charts/GenreChart";
 export default {
-   components: { Layout },
+  components: { Layout, GenreChart },
 };
 </script>
+<style escope>
+  .genre-chart{
+    max-width: 50%;
+  }
+</style>
 
