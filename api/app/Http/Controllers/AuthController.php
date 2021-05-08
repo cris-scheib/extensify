@@ -79,13 +79,13 @@ class AuthController extends Controller
         $this->settingModel->create([
             'name' => 'Term of preference of artists',
             'key' => 'artists_term',
-            'value' => 1,
+            'value' => 0,
             'user_id' => $user->id,
         ]);
         $this->settingModel->create([
             'name' => 'Term of preference of tracks',
             'key' => 'tracks_term',
-            'value' => 2,
+            'value' => 1,
             'user_id' => $user->id,
         ]);
     }

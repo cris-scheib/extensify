@@ -8,7 +8,7 @@ export default {
   methods: {
     getToken() {
       this.$api
-        .post("/auth", {
+        .post("/auth/", {
           code: this.$route.query.code,
         })
         .then((response) => {

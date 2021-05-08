@@ -75,9 +75,9 @@ export default {
       loaded: false,
       settings: [],
       terms: [
-        { text: "Short term", value: 1 },
-        { text: "Medium term", value: 2 },
-        { text: "Long term", value: 3 },
+        { text: "Short term", value: 0 },
+        { text: "Medium term", value: 1 },
+        { text: "Long term", value: 2 },
       ],
       periods: [
         { text: "10 minutes", value: 10 },

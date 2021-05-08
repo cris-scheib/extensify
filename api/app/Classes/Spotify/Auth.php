@@ -78,7 +78,7 @@ class Auth
         return Cache::get('accessToken');
     }
 
-    private function refreshAccessToken($refreshToken)
+    public function refreshAccessToken($refreshToken)
     {
         try {
             $client = new Client();
@@ -121,5 +121,45 @@ class Auth
         ) {
             return $body->refresh_token;
         });
+    }
+    public function RefreshToken($user)
+    {
+        try {
+            $client = new Client();
+            $response = $client->post($this->apiUrl, [
+                'headers' => [
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Accepts' => 'application/json',
+                    'Authorization' =>
+                        'Basic ' .
+                        base64_encode(
+                            $this->clientId . ':' . $this->clientSecret
+                        ),
+                ],
+                'form_params' => [
+                    'grant_type' => 'refresh_token',
+                    'refreshToken' => $user->refresh_token,
+                ],
+            ]);
+        } catch (RequestException $e) {
+            $errorResponse = json_decode(
+                $e
+                    ->getResponse()
+                    ->getBody()
+                    ->getContents()
+            );
+            $status = $e->getCode();
+            $message = $errorResponse->error;
+            throw new Exception($message);
+        }
+
+        $body = json_decode((string) $response->getBody());
+        
+        $user->update([
+            'token' => $body->access_token,
+            'refresh_token' => $body->refresh_token,
+            'expiration_token' => Carbon::now()->addHour(),
+        ]);
+        
     }
 }
