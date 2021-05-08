@@ -6,9 +6,9 @@ use App\Models\Artist;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class UserArtist extends Model
+class UserFavoriteArtist extends Model
 {
-    protected $table = 'user_artist';
+    protected $table = 'user_favorite_artist';
     protected $primaryKey = 'id';
     protected $fillable = ['artist_id', 'user_id'];
 

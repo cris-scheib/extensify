@@ -17,26 +17,48 @@ class ArtistsController extends Controller
         $this->artistModel = $artistModel;
     }
 
-    public function Get()
+    public function GetFavorites()
     {
         $user = Cache::get('user');
 
-        $userArtists = $this->artistModel
-            ->whereHas('userArtist', function ($query) use ($user) {
+        $userFavoriteArtists = $this->artistModel
+            ->whereHas('userFavoriteArtist', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             ->count();
 
-        if ($userArtists == 0) {
+        if ($userFavoriteArtists == 0) {
             $this->artists->syncArtists($user);
         }
-        $userArtists = $this->artistModel
-            ->whereHas('userArtist', function ($query) use ($user) {
+        $userFavoriteArtists = $this->artistModel
+            ->whereHas('userFavoriteArtist', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             ->orderby('name')
             ->get();
 
-        return response()->json($userArtists);
+        return response()->json($userFavoriteArtists);
+    }
+    public function GetFollowed()
+    {
+        $user = Cache::get('user');
+
+        $userFollowedArtists = $this->artistModel
+            ->whereHas('userFollowedArtist', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->count();
+
+        if ($userFollowedArtists == 0) {
+            $this->artists->syncArtists($user);
+        }
+        $userFollowedArtists = $this->artistModel
+            ->whereHas('userFollowedArtist', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->orderby('name')
+            ->get();
+
+        return response()->json($userFollowedArtists);
     }
 }

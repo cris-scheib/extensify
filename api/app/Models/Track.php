@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Artist;
-use App\Models\UserTrack;
+use App\Models\UserFavoriteTrack;
 
 class Track extends Model
 {
@@ -15,8 +15,8 @@ class Track extends Model
     {
         return $this->belongsTo(Artist::class);
     }
-    public function userTrack()
+    public function userFavoriteTracks()
     {
-        return $this->hasMany(UserTrack::class);
+        return $this->hasMany(UserFavoriteTrack::class);
     }
 }

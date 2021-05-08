@@ -7,21 +7,21 @@ use Illuminate\Console\Command;
 use App\Classes\Artists;
 use App\Models\User;
 
-class SyncArtists extends Command
+class SyncFavoriteArtists extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sync:artists';
+    protected $signature = 'sync:favorite-artists';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Cron to sync all artists';
+    protected $description = 'Cron to sync all favorites artists';
 
     public static $process_busy = false;
 
@@ -50,7 +50,7 @@ class SyncArtists extends Command
             'expiration_token'
         )->get();
         foreach ($users as $user) {
-            $artists->syncArtists($user);
+            $artists->syncFavoriteArtists($user);
         }
     }
 }

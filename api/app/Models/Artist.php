@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Genre;
-use App\Models\UserArtist;
+use App\Models\UserFavoriteArtist;
+use App\Models\UserFollowedArtist;
+use App\Models\ArtistGenre;
 use Illuminate\Database\Eloquent\Model;
 
 class Artist extends Model
@@ -15,8 +17,20 @@ class Artist extends Model
     {
         return $this->belongsToMany(Genre::class);
     }
-    public function userArtist()
+    public function artistGenre()
     {
-        return $this->hasMany(UserArtist::class);
+        return $this->hasMany(ArtistGenre::class);
+    }
+    public function userFavoriteArtist()
+    {
+        return $this->hasMany(UserFavoriteArtist::class);
+    }
+    public function userFollowedArtist()
+    {
+        return $this->hasMany(UserFollowedArtist::class);
+    }
+    public function tracks()
+    {
+        return $this->hasMany(Track::class);
     }
 }

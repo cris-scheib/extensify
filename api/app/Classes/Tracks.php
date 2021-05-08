@@ -3,7 +3,7 @@
 namespace App\Classes;
 use App\Models\Track;
 use App\Models\Artist;
-use App\Models\UserTrack;
+use App\Models\UserFavoriteTrack;
 use App\Classes\Spotify\Tracks as SpotifyTracks;
 use Illuminate\Support\Facades\DB;
 
@@ -11,20 +11,24 @@ class Tracks
 {
     private $trackModel;
     private $artistModel;
-    private $userTrackModel;
+    private $userFavoriteTrackModel;
 
     public function __construct()
     {
         $this->trackModel = new Track();
         $this->artistModel = new Artist();
-        $this->userTrackModel = new UserTrack();
+        $this->userFavoriteTrackModel = new UserFavoriteTrack();
     }
 
-    public function syncTracks($user)
+    public function syncFavoriteTracks($user)
     {
         $spotifyTracks = new SpotifyTracks();
-        $data = $spotifyTracks->getTracks($user->token);
+        $data = $spotifyTracks->getFavoriteTracks($user);
+        $this->syncData($user, $data, $this->userFavoriteTrackModel);
+    }
 
+    private function syncData($user, $data, $model)
+    {
         DB::beginTransaction();
         try {
             foreach ($data->items as $spotifyTrack) {
@@ -49,12 +53,12 @@ class Tracks
                         'artist_id' => $artist->id,
                     ]);
                 }
-                $userTrack = $this->userTrackModel
+                $userTrack = $model
                     ->where('track_id', $track->id)
                     ->where('user_id', $track->id)
                     ->first();
                 if ($userTrack === null) {
-                    $userTrack = $this->userTrackModel->create([
+                    $userTrack = $model->create([
                         'track_id' => $track->id,
                         'user_id' => $user->id,
                     ]);
@@ -63,7 +67,6 @@ class Tracks
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
         }
     }
 }

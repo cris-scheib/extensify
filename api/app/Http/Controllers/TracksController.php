@@ -17,25 +17,25 @@ class TracksController extends Controller
         $this->tracks = $tracks;
     }
 
-    public function Get()
+    public function GetFavorites()
     {
         $user = Cache::get('user');
 
-        $userTracks = $this->trackModel
-            ->whereHas('userTrack', function ($query) use ($user) {
+        $userFavoriteTracks = $this->trackModel
+            ->whereHas('userFavoriteTracks', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             ->count();
-
-        if ($userTracks == 0) {
-            $this->tracks->syncTracks($user);
+        if ($userFavoriteTracks == 0) {
+            $this->tracks->syncFavoriteTracks($user);
         }
-        $userTracks = $this->trackModel
+        $userFavoriteTracks = $this->trackModel
             ->with('artist.genres')
-            ->whereHas('userTrack', function ($query) use ($user) {
+            ->whereHas('userFavoriteTracks', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
             ->get();
-        return response()->json($userTracks);
+        return response()->json($userFavoriteTracks);
     }
+
 }

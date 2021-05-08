@@ -2,7 +2,8 @@
 
 namespace App\Classes;
 use App\Models\ArtistGenre;
-use App\Models\UserArtist;
+use App\Models\UserFavoriteArtist;
+use App\Models\UserFollowedArtist;
 use App\Models\Artist;
 use App\Models\Genre;
 use App\Classes\Spotify\Artists as SpotifyArtists;
@@ -13,20 +14,35 @@ class Artists
     private $artistModel;
     private $genreModel;
     private $artistGenreModel;
+    private $userFollowedArtistModel;
+    private $userFavoriteArtistModel;
 
     public function __construct()
     {
         $this->artistModel = new Artist();
         $this->genreModel = new Genre();
         $this->artistGenreModel = new ArtistGenre();
-        $this->userArtistModel = new UserArtist();
+        $this->userFavoriteArtistModel = new UserFavoriteArtist();
+        $this->userFollowedArtistModel = new UserFollowedArtist();
     }
 
-    public function syncArtists($user)
+    public function syncFavoriteArtists($user)
     {
         $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getArtists($user);
+        $data = $apotifyArtists->getFavoriteArtists($user);
+        $this->syncData($user, $data, $this->userFavoriteArtistModel);
+    }
 
+    public function syncFollowedArtists($user)
+    {
+        $apotifyArtists = new SpotifyArtists();
+        $data = $apotifyArtists->getFollowedArtists($user);
+        $this->syncData($user, $data->artists, $this->userFollowedArtistModel);
+    }
+
+    private function syncData($user, $data, $model)
+    {
+        
         DB::beginTransaction();
         try {
             foreach ($data->items as $spotifyArtist) {
@@ -40,15 +56,17 @@ class Artists
                         'image' => $spotifyArtist->images[0]->url,
                     ]);
                 }
-                $userArtist = $this->userArtistModel
+                $userArtist = $model
                     ->where('artist_id', $artist->id)
                     ->where('user_id', $user->id)
                     ->first();
                 if ($userArtist === null) {
-                    $userArtist = $this->userArtistModel->create([
-                        'artist_id' => $artist->id,
-                        'user_id' => $user->id,
-                    ]);
+                    $userArtist = $model->create(
+                        [
+                            'artist_id' => $artist->id,
+                            'user_id' => $user->id,
+                        ]
+                    );
                 }
                 foreach ($spotifyArtist->genres as $spotifyGenre) {
                     $genre = $this->genreModel

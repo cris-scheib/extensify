@@ -56,7 +56,7 @@ export default {
   methods: {
     getTracks() {
       this.$api
-        .get("/tracks")
+        .get("/favorites/tracks")
         .then((response) => {
           this.tracks = response.data;
         })

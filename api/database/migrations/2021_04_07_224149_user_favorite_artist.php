@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UserArtist extends Migration
+class UserFavoriteArtist extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class UserArtist extends Migration
      */
     public function up()
     {
-        Schema::create('user_artist', function (Blueprint $table) {
+        Schema::create('user_favorite_artist', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('artist_id');
             $table->foreign('artist_id')->references('id')->on('artists');
@@ -30,6 +30,6 @@ class UserArtist extends Migration
      */
     public function down()
     {
-        Schema::drop('user_artist');
+        Schema::drop('user_favorite_artist');
     }
 }

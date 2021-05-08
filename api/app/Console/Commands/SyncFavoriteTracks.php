@@ -7,21 +7,21 @@ use Illuminate\Console\Command;
 use App\Classes\Tracks;
 use App\Models\User;
 
-class SyncTracks extends Command
+class SyncFavoriteTracks extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sync:tracks';
+    protected $signature = 'sync:favorite-tracks';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Cron to sync all tracks';
+    protected $description = 'Cron to sync all favorite tracks';
 
     public static $process_busy = false;
 
@@ -50,7 +50,7 @@ class SyncTracks extends Command
             'expiration_token'
         )->get();
         foreach ($users as $user) {
-            $tracks->syncTracks($user);
+            $tracks->syncFavoriteTracks($user);
         }
     }
 }

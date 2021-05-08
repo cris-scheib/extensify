@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UserTrack extends Migration
+class UserFavoriteTrack extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class UserTrack extends Migration
      */
     public function up()
     {
-        Schema::create('user_track', function (Blueprint $table) {
+        Schema::create('user_favorite_track', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('track_id');
             $table->foreign('track_id')->references('id')->on('tracks');
@@ -30,6 +30,6 @@ class UserTrack extends Migration
      */
     public function down()
     {
-        Schema::drop('user_track');
+        Schema::drop('user_favorite_track');
     }
 }

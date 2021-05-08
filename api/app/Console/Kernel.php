@@ -13,8 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        '\App\Console\Commands\SyncArtists',
-        '\App\Console\Commands\SyncTracks',
+        '\App\Console\Commands\SyncFavoriteArtists',
+        '\App\Console\Commands\SyncFollowedArtists',
+        '\App\Console\Commands\SyncFavoriteTracks',
     ];
 
     /**
@@ -25,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('sync:artists')->everyFiveMinutes();
-        $schedule->command('sync:tracks')->everyFiveMinutes();
+        $schedule->command('sync:favorite-artists')->everyFiveMinutes();
+        $schedule->command('sync:followed-artists')->everyFiveMinutes();
+        $schedule->command('sync:favorite-tracks')->everyFiveMinutes();
     }
 }

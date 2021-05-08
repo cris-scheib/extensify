@@ -6,9 +6,9 @@ use App\Models\Track;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class UserTrack extends Model
+class UserFavoriteTrack extends Model
 {
-    protected $table = 'user_track';
+    protected $table = 'user_favorite_track';
     protected $primaryKey = 'id';
     protected $fillable = ['track_id', 'user_id'];
 

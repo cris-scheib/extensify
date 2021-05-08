@@ -47,7 +47,7 @@ export default {
   methods: {
     getArtists() {
       this.$api
-        .get("/artists")
+        .get("/favorites/artists")
         .then((response) => {
           this.artists = response.data;
         })
