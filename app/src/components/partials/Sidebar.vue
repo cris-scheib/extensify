@@ -9,8 +9,9 @@
           
         </b-button>
         <b-nav-item to="dashboard">Dashboard</b-nav-item>
-        <b-nav-item to="artists">Favorite Artists</b-nav-item>
-        <b-nav-item to="tracks">Favorite Tracks</b-nav-item>
+        <b-nav-item to="favorite-artists">Favorite Artists</b-nav-item>
+        <b-nav-item to="favorite-tracks">Favorite Tracks</b-nav-item>
+        <b-nav-item to="followed-artists">Followed Artists</b-nav-item>
       </b-nav>
     </nav>
   </div>
