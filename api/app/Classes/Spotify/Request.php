@@ -5,6 +5,7 @@ namespace App\Classes\Spotify;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client;
 use App\Classes\Spotify\Auth;
+use Carbon\Carbon;
 
 class Request
 {
@@ -34,7 +35,7 @@ class Request
         return json_decode((string) $response->getBody());
     }
 
-    private function header($token)
+    private function header($user)
     {
         return [
             'Content-Type' => 'application/json',
@@ -42,13 +43,15 @@ class Request
             'Authorization' => 'Bearer ' . $this->token($user),
         ];
     }
-    private function token($user){
-        if($user->expiration_token < Carbon::now()){
+    private function token($user)
+    {
+        if (
+            $user->expiration_token > Carbon::now() &&
+            $user->expiration_token < Carbon::now()->addMinutes(5)
+        ) {
             $auth = new Auth();
-            $auth->refreshAccessToken($user);
+            $auth->RefreshToken($user);
         }
         return $user->token;
     }
-
-
 }

@@ -27,22 +27,30 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             'as' => 'login',
             'uses' => 'AuthController@Login',
         ]);
+        $router->get('/logout', [
+            'as' => 'logout',
+            'uses' => 'AuthController@Logout',
+        ]);
     });
     $router->group(
-        ['prefix' => 'artists', 'middleware' => 'auth'],
+        ['prefix' => 'favorites', 'middleware' => 'auth'],
         function () use ($router) {
-            $router->get('/', [
+            $router->get('/artists', [
                 'as' => 'artists',
-                'uses' => 'ArtistsController@Get',
+                'uses' => 'ArtistsController@GetFavorites',
+            ]);
+            $router->get('/tracks', [
+                'as' => 'tracks',
+                'uses' => 'TracksController@GetFavorites',
             ]);
         }
     );
     $router->group(
-        ['prefix' => 'tracks', 'middleware' => 'auth'],
+        ['prefix' => 'followed', 'middleware' => 'auth'],
         function () use ($router) {
-            $router->get('/', [
-                'as' => 'tracks',
-                'uses' => 'TracksController@Get',
+            $router->get('/artists', [
+                'as' => 'artists',
+                'uses' => 'ArtistsController@GetFollowed',
             ]);
         }
     );
@@ -50,13 +58,24 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         ['prefix' => 'settings', 'middleware' => 'auth'],
         function () use ($router) {
             $router->get('/', [
-                'as' => 'settingsGet',
+                'as' => 'settings.get',
                 'uses' => 'SettingsController@Get',
             ]);
             $router->post('/', [
-                'as' => 'settingsUpdate',
+                'as' => 'settings.update',
                 'uses' => 'SettingsController@Update',
             ]);
+        }
+    );
+
+    $router->group(
+        ['prefix' => 'reports', 'middleware' => 'auth'],
+        function () use ($router) {
+            $router->get('/favorite-genres', [
+                'as' => 'reports.genre',
+                'uses' => 'ReportsController@FavoriteGenres',
+            ]);
+           
         }
     );
 });

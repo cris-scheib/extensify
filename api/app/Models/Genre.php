@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Artist;
+use App\Models\ArtistGenre;
 use Illuminate\Database\Eloquent\Model;
 
 class Genre extends Model
@@ -12,6 +13,11 @@ class Genre extends Model
 
     public function artists()
     {
-        return $this->belongsToMany(Artist::class);
+        return $this->belongsToMany(Artist::class, 'artist_genre');
     }
+    public function artistGenre()
+    {
+        return $this->hasMany(ArtistGenre::class);
+    }
+
 }
