@@ -52,6 +52,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
                 'as' => 'artists',
                 'uses' => 'ArtistsController@GetFollowed',
             ]);
+            $router->delete('/artist/:id', [
+                'as' => 'unfollow',
+                'uses' => 'ArtistsController@Unfollow',
+            ]);
         }
     );
     $router->group(
@@ -74,6 +78,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->get('/favorite-genres', [
                 'as' => 'reports.genre',
                 'uses' => 'ReportsController@FavoriteGenres',
+            ]);
+           
+        }
+    );
+    $router->group(
+        ['prefix' => 'history', 'middleware' => 'auth'],
+        function () use ($router) {
+            $router->get('/', [
+                'as' => 'history',
+                'uses' => 'HistoryController@Get',
             ]);
            
         }

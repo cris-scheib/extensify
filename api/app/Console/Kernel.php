@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\SyncFavoriteArtists',
         '\App\Console\Commands\SyncFollowedArtists',
         '\App\Console\Commands\SyncFavoriteTracks',
+        '\App\Console\Commands\SyncHistory',
     ];
 
     /**
@@ -29,5 +30,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('sync:favorite-artists')->everyFiveMinutes();
         $schedule->command('sync:followed-artists')->everyFiveMinutes();
         $schedule->command('sync:favorite-tracks')->everyFiveMinutes();
+        $schedule->command('sync:history')->everyFiveMinutes();
     }
 }

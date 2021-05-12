@@ -47,6 +47,14 @@ let router = new Router({
       },
     },
     {
+      path: "/history",
+      name: "history",
+      component: require("@/components/pages/History").default,
+      meta: {
+        auth: true,
+      },
+    },
+    {
       path: "/login",
       name: "login",
       component: require("@/components/pages/Login").default,

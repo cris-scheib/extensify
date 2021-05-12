@@ -4,24 +4,24 @@ namespace App\Console\Commands;
 
 use Helpers;
 use Illuminate\Console\Command;
-use App\Classes\Artists;
+use App\Classes\History;
 use App\Models\User;
 
-class SyncFavoriteArtists extends Command
+class SyncHistory extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sync:favorite-artists';
+    protected $signature = 'sync:history';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Cron to sync all favorites artists';
+    protected $description = 'Cron to sync playlist history';
 
     public static $process_busy = false;
 
@@ -42,7 +42,7 @@ class SyncFavoriteArtists extends Command
      */
     public function handle()
     {
-        $artists = new Artists();
+        $history = new History();
         $users = User::select(
             'id',
             'token',
@@ -50,7 +50,7 @@ class SyncFavoriteArtists extends Command
             'expiration_token'
         )->get();
         foreach ($users as $user) {
-            $artists->syncFavorite($user);
+            $history->syncHistory($user);
         }
     }
 }

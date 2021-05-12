@@ -90,6 +90,6 @@ export default {
   color: white;
   font-family: "Raleway", sans-serif;
   margin: 1em 0;
-  font-size: 1.3em;
+  font-size: 1.25em;
 }
 </style>

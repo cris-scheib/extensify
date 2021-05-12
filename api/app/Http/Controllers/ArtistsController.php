@@ -56,9 +56,16 @@ class ArtistsController extends Controller
             ->whereHas('userFollowedArtist', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
+            ->selectRaw('id, name, spotify_id, image, true as follow')
             ->orderby('name')
             ->get();
 
         return response()->json($userFollowedArtists);
+    }
+    public function Unfollow(Artist $artists)
+    {
+        $user = Cache::get('user');
+
+        $this->artists->unfollow($user, $artists);   
     }
 }

@@ -26,23 +26,28 @@ class Artists
         $this->userFollowedArtistModel = new UserFollowedArtist();
     }
 
-    public function syncFavoriteArtists($user)
+    public function unfollow($user, $artist)
     {
         $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getFavoriteArtists($user);
+        $data = $apotifyArtists->unfollow($user, $artist->spotify_id);
+        dd($data);
+    }
+    public function syncFavorite($user)
+    {
+        $apotifyArtists = new SpotifyArtists();
+        $data = $apotifyArtists->getFavorite($user);
         $this->syncData($user, $data, $this->userFavoriteArtistModel);
     }
 
-    public function syncFollowedArtists($user)
+    public function syncFollowed($user)
     {
         $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getFollowedArtists($user);
+        $data = $apotifyArtists->getFollowed($user);
         $this->syncData($user, $data->artists, $this->userFollowedArtistModel);
     }
 
     private function syncData($user, $data, $model)
     {
-        
         DB::beginTransaction();
         try {
             foreach ($data->items as $spotifyArtist) {
@@ -61,12 +66,10 @@ class Artists
                     ->where('user_id', $user->id)
                     ->first();
                 if ($userArtist === null) {
-                    $userArtist = $model->create(
-                        [
-                            'artist_id' => $artist->id,
-                            'user_id' => $user->id,
-                        ]
-                    );
+                    $userArtist = $model->create([
+                        'artist_id' => $artist->id,
+                        'user_id' => $user->id,
+                    ]);
                 }
                 foreach ($spotifyArtist->genres as $spotifyGenre) {
                     $genre = $this->genreModel

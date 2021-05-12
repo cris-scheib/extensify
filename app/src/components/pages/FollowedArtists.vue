@@ -12,6 +12,15 @@
             :key="artist.id"
           >
             <b-card>
+              <div @click="followUnfollow(artist)" class="follow-action">
+                <b-icon
+                  icon="heart-fill"
+                  :class="artist.follow ? 'heart-icon' : 'heart-icon-follow'"
+                  tabindex="0"
+                  v-b-tooltip.hover
+                  :title="artist.follow ? 'Unfollow' : 'Follow'"
+                ></b-icon>
+              </div>
               <b-link
                 :href="'https://open.spotify.com/artist/' + artist.spotify_id"
                 target="_blank"
@@ -55,6 +64,19 @@ export default {
           console.log(response);
         });
     },
+    // followUnfollow(artist) {
+    //   if (artist.follow) {
+    //     this.$api
+    //       .delete("/followed/artist/"+artist.id)
+    //       .then((response) => {
+    //         this.artists = response.data;
+    //       })
+    //       .catch(({ response }) => {
+    //         console.log(response);
+    //       });
+    //   } else {
+    //   }
+    // },
   },
   created() {
     this.getArtists();
@@ -90,6 +112,25 @@ export default {
   color: white;
   font-family: "Raleway", sans-serif;
   margin: 1em 0;
-  font-size: 1.3em;
+  font-size: 1.25em;
+}
+.follow-action {
+  position: absolute;
+  top: 0.8em;
+  right: 0.8em;
+  cursor: pointer;
+}
+.heart-icon:focus,
+.heart-icon-follow:focus,
+.follow-action:focus {
+  outline: unset;
+}
+.heart-icon,
+.heart-icon-follow:hover {
+  color: #1abd53;
+}
+.heart-icon:hover,
+.heart-icon-follow {
+  color: #1b3d27;
 }
 </style>

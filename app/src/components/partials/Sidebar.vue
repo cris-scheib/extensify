@@ -1,17 +1,17 @@
 <template>
   <div class="sidebar" v-bind:class="{ colapsed: colapsed }">
     <nav>
-      <b-nav  vertical>
+      <b-nav vertical>
         <h3 class="title">Extesify</h3>
         <b-button class="btn-sidebar" @click="colapsed = !colapsed">
-           <b-icon v-if="colapsed" icon="chevron-double-right"></b-icon>
+          <b-icon v-if="colapsed" icon="chevron-double-right"></b-icon>
           <b-icon v-else icon="chevron-double-left"></b-icon>
-          
         </b-button>
         <b-nav-item to="dashboard">Dashboard</b-nav-item>
         <b-nav-item to="favorite-artists">Favorite Artists</b-nav-item>
         <b-nav-item to="favorite-tracks">Favorite Tracks</b-nav-item>
         <b-nav-item to="followed-artists">Followed Artists</b-nav-item>
+        <b-nav-item to="history">History</b-nav-item>
       </b-nav>
     </nav>
   </div>
@@ -38,7 +38,7 @@ export default {
 .nav-link {
   color: white;
   padding: 1rem 1rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 .title {
   color: white;
@@ -62,6 +62,4 @@ export default {
 .sidebar.colapsed {
   left: -158px;
 }
-
-
 </style>
