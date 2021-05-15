@@ -19,7 +19,7 @@ class History extends Migration
             $table->foreign('track_id')->references('id')->on('tracks');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamp('played_at')->index();
+            $table->timestamp('played_at')->unique();
             $table->timestamps();
         });
     }

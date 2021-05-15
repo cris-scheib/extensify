@@ -1,9 +1,20 @@
 <template>
   <div>
     <Layout>
-      <div class="genre-chart" >
-        <GenreChart />
-      </div>
+      <b-container fluid>
+        <b-row>
+          <b-col>
+            <div class="genre-chart">
+              <GenreChart />
+            </div>
+          </b-col>
+          <b-col>
+            <div class="frequency-chart">
+              <FrequencyChart />
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
     </Layout>
   </div>
 </template>
@@ -11,13 +22,9 @@
 <script>
 import Layout from "../partials/Layout";
 import GenreChart from "../charts/GenreChart";
+import FrequencyChart from "../charts/FrequencyChart";
 export default {
-  components: { Layout, GenreChart },
+  components: { Layout, GenreChart, FrequencyChart },
 };
 </script>
-<style escope>
-  .genre-chart{
-    max-width: 50%;
-  }
-</style>
 

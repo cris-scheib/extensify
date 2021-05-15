@@ -79,6 +79,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
                 'as' => 'reports.genre',
                 'uses' => 'ReportsController@FavoriteGenres',
             ]);
+            $router->get('/frequency', [
+                'as' => 'reports.frequency',
+                'uses' => 'ReportsController@Frequency',
+            ]);
            
         }
     );

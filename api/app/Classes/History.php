@@ -63,12 +63,12 @@ class History
                 $played_at = Carbon::parse($spotifyHistory->played_at)->format(
                     'Y-m-d H:i:s'
                 );
-                $userHistory = $mode->where('played_at', $played_at)->first();
+                $userHistory = $model->where('played_at', $played_at)->first();
                 if ($userHistory === null) {
                     $userHistory = $model->create([
                         'track_id' => $track->id,
                         'user_id' => $user->id,
-                        'played_at' => $spotifyHistory->played_at,
+                        'played_at' => $played_at,
                     ]);
                 }
             }

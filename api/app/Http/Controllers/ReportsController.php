@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Genre;
 use App\Models\Track;
 use App\Models\Artist;
+use App\Models\History;
 use Illuminate\Support\Facades\Cache;
 
 class ReportsController extends Controller
@@ -13,15 +14,18 @@ class ReportsController extends Controller
     private $genreModel;
     private $trackModel;
     private $artistModel;
+    private $historyModel;
 
     public function __construct(
         Genre $genreModel,
         Track $trackModel,
-        Artist $artistModel
+        Artist $artistModel,
+        History $historyModel
     ) {
         $this->genreModel = $genreModel;
         $this->trackModel = $trackModel;
         $this->artistModel = $artistModel;
+        $this->historyModel = $historyModel;
     }
 
     public function FavoriteGenres()
@@ -69,6 +73,30 @@ class ReportsController extends Controller
             'genre' => array_column($favorites, 'name'),
             'artists' => array_column($favorites, 'artists'),
             'tracks' => array_column($favorites, 'tracks'),
+        ];
+        return response()->json($data);
+    }
+
+    public function Frequency()
+    {
+        $dates = $this->historyModel
+            ->selectRaw("to_char(history.played_at, 'DD/MM/YYYY') as date")
+            ->groupBy('date')
+            ->orderBy('date')
+            ->pluck('date');
+        $labels = [];
+        $frequency = [];
+        foreach ($dates as $date) {
+            $labels[] = substr($date, 0, 5);
+            $frequency[] = $this->historyModel
+                ->whereRaw(
+                    "to_char(history.played_at, 'DD/MM/YYYY') = '" . $date . "'"
+                )
+                ->count();
+        }
+        $data = [
+            'labels' => $labels,
+            'frequency' => $frequency,
         ];
         return response()->json($data);
     }
