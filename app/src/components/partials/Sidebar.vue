@@ -11,6 +11,7 @@
         <b-nav-item to="favorite-artists">Favorite Artists</b-nav-item>
         <b-nav-item to="favorite-tracks">Favorite Tracks</b-nav-item>
         <b-nav-item to="followed-artists">Followed Artists</b-nav-item>
+        <b-nav-item to="recommendations">Recommendations</b-nav-item>
         <b-nav-item to="history">History</b-nav-item>
       </b-nav>
     </nav>

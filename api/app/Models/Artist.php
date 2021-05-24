@@ -6,6 +6,7 @@ use App\Models\Genre;
 use App\Models\UserFavoriteArtist;
 use App\Models\UserFollowedArtist;
 use App\Models\ArtistGenre;
+use App\Models\Recommendation;
 use Illuminate\Database\Eloquent\Model;
 
 class Artist extends Model
@@ -28,6 +29,10 @@ class Artist extends Model
     public function userFollowedArtist()
     {
         return $this->hasMany(UserFollowedArtist::class);
+    }
+    public function userRecommendations()
+    {
+        return $this->hasMany(Recommendation::class);
     }
     public function tracks()
     {

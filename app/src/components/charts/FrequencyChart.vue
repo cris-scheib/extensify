@@ -12,23 +12,30 @@ export default {
   data() {
     return {
       data: {
-        type: "bar",
+        type: "line",
         data: {
           labels: [],
           datasets: [
             {
               label: "Frequency of tracks heard",
               data: [],
-              backgroundColor: "#1abd5395",
+              borderColor: "#1abd53",
+              backgroundColor: "#101010",
+              tension: 0
             },
           ],
         },
         options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "top",
-            },
+          response: true,
+          scales: {
+            yAxes: [
+              {
+                display: true,
+                ticks: {
+                  beginAtZero: true,
+                },
+              },
+            ],
           },
         },
       },

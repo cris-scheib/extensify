@@ -8,6 +8,8 @@ use App\Models\Track;
 use App\Models\Artist;
 use App\Models\History;
 use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
+
 
 class ReportsController extends Controller
 {
@@ -79,18 +81,23 @@ class ReportsController extends Controller
 
     public function Frequency()
     {
-        $dates = $this->historyModel
-            ->selectRaw("to_char(history.played_at, 'DD/MM/YYYY') as date")
-            ->groupBy('date')
-            ->orderBy('date')
-            ->pluck('date');
         $labels = [];
         $frequency = [];
-        foreach ($dates as $date) {
-            $labels[] = substr($date, 0, 5);
+        for ($i = 14; $i >= 0; $i--) {
+            $labels[] = substr(
+                Carbon::now()
+                    ->subDays($i)
+                    ->format('d/m'),
+                0,
+                5
+            );
             $frequency[] = $this->historyModel
                 ->whereRaw(
-                    "to_char(history.played_at, 'DD/MM/YYYY') = '" . $date . "'"
+                    "to_char(history.played_at, 'DD/MM/YYYY') = '" .
+                        Carbon::now()
+                            ->subDays($i)
+                            ->format('d/m/Y') .
+                        "'"
                 )
                 ->count();
         }

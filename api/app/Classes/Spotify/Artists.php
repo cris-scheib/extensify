@@ -13,6 +13,14 @@ class Artists
     {
         $this->request = new Request();
     }
+
+    public function getArtist($user,$artist)
+    {
+        return $this->request->get(
+            $user,
+            'https://api.spotify.com/v1/artists/' . $artist
+        );
+    }
     public function getFavorite($user)
     {
         $term = SettingsHelper::getTerm('artists_term', $user);
@@ -23,16 +31,25 @@ class Artists
                 '&limit=15&offset=0'
         );
     }
-    public function getFollowed($user)
+    public function getFollowed($user, $next = null)
     {
         return $this->request->get(
             $user,
-            'https://api.spotify.com/v1/me/following?type=artist&limit=1'
+            isset($next)
+                ? $next
+                : 'https://api.spotify.com/v1/me/following?type=artist&limit=10'
         );
     }
     public function unfollow($user, $artist)
     {
         return $this->request->delete(
+            $user,
+            'https://api.spotify.com/v1/me/following?type=artist&ids=' . $artist
+        );
+    }
+    public function follow($user, $artist)
+    {
+        return $this->request->put(
             $user,
             'https://api.spotify.com/v1/me/following?type=artist&ids=' . $artist
         );

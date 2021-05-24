@@ -13,6 +13,7 @@
 |
 */
 
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
@@ -52,9 +53,13 @@ $router->group(['prefix' => 'api'], function () use ($router) {
                 'as' => 'artists',
                 'uses' => 'ArtistsController@GetFollowed',
             ]);
-            $router->delete('/artist/:id', [
+            $router->post('/unfollow/', [
                 'as' => 'unfollow',
                 'uses' => 'ArtistsController@Unfollow',
+            ]);
+            $router->post('/follow/' , [
+                'as' => 'follow',
+                'uses' => 'ArtistsController@Follow',
             ]);
         }
     );
@@ -92,6 +97,16 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->get('/', [
                 'as' => 'history',
                 'uses' => 'HistoryController@Get',
+            ]);
+           
+        }
+    );
+    $router->group(
+        ['prefix' => 'recommendations', 'middleware' => 'auth'],
+        function () use ($router) {
+            $router->get('/', [
+                'as' => 'recommendations/',
+                'uses' => 'RecommendationsController@Get',
             ]);
            
         }

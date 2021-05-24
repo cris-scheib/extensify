@@ -28,22 +28,40 @@ class Artists
 
     public function unfollow($user, $artist)
     {
-        $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->unfollow($user, $artist->spotify_id);
-        dd($data);
+        $spotifyArtists = new SpotifyArtists();
+        return $spotifyArtists->unfollow($user, $artist);
+    }
+    public function follow($user, $artist)
+    {
+        $spotifyArtists = new SpotifyArtists();
+        return $spotifyArtists->follow($user, $artist);
+    }
+
+    public function getArtist($user, $artist)
+    {
+        $spotifyArtists = new SpotifyArtists();
+        return $spotifyArtists->getArtist($user, $artist);
     }
     public function syncFavorite($user)
     {
-        $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getFavorite($user);
+        $spotifyArtists = new SpotifyArtists();
+        $data = $spotifyArtists->getFavorite($user);
         $this->syncData($user, $data, $this->userFavoriteArtistModel);
     }
 
     public function syncFollowed($user)
     {
-        $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getFollowed($user);
+        $spotifyArtists = new SpotifyArtists();
+        $data = $spotifyArtists->getFollowed($user);
         $this->syncData($user, $data->artists, $this->userFollowedArtistModel);
+        while ($data->artists->next !== null) {
+            $this->syncData(
+                $user,
+                $data->artists,
+                $this->userFollowedArtistModel
+            );
+            $data = $spotifyArtists->getFollowed($user, $data->artists->next);
+        }
     }
 
     private function syncData($user, $data, $model)
@@ -95,7 +113,6 @@ class Artists
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
         }
     }
 }

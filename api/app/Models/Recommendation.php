@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-use App\Models\Track;
 use App\Models\Artist;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class History extends Model
+class Recommendation extends Model
 {
-    protected $table = 'history';
+    protected $table = 'recommendations';
     protected $primaryKey = 'id';
-    protected $fillable = ['track_id', 'user_id', 'played_at'];
+    protected $fillable = ['artist_id', 'user_id', 'seed'];
 
-    public function track()
+    public function artist()
     {
-        return $this->belongsTo(Track::class);
+        return $this->belongsTo(Artist::class);
     }
 
     public function user()

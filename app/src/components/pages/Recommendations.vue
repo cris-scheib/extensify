@@ -56,7 +56,7 @@ export default {
   methods: {
     getArtists() {
       this.$api
-        .get("/followed/artists")
+        .get("/recommendations/")
         .then((response) => {
           this.artists = response.data;
         })
@@ -64,7 +64,7 @@ export default {
           console.log(response);
         });
     },
-    followUnfollow(artist) {
+       followUnfollow(artist) {
       this.$api
         .post(artist.follow ? "/followed/unfollow" : "/followed/follow", {
           artist: artist.spotify_id,
@@ -113,24 +113,5 @@ export default {
   font-family: "Raleway", sans-serif;
   margin: 1em 0;
   font-size: 1.25em;
-}
-.follow-action {
-  position: absolute;
-  top: 0.8em;
-  right: 0.8em;
-  cursor: pointer;
-}
-.heart-icon:focus,
-.heart-icon-follow:focus,
-.follow-action:focus {
-  outline: unset;
-}
-.heart-icon,
-.heart-icon-follow:hover {
-  color: #1abd53;
-}
-.heart-icon:hover,
-.heart-icon-follow {
-  color: #1b3d27;
 }
 </style>

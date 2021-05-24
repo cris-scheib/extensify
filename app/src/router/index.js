@@ -39,6 +39,14 @@ let router = new Router({
       },
     },
     {
+      path: "/recommendations",
+      name: "recommendations",
+      component: require("@/components/pages/Recommendations").default,
+      meta: {
+        auth: true,
+      },
+    },
+    {
       path: "/favorite-tracks",
       name: "favorite-tracks",
       component: require("@/components/pages/FavoriteTracks").default,
