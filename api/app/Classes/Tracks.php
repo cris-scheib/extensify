@@ -20,7 +20,7 @@ class Tracks
         $this->userFavoriteTrackModel = new UserFavoriteTrack();
     }
 
-    public function syncFavoriteTracks($user)
+    public function syncFavorite($user)
     {
         $spotifyTracks = new SpotifyTracks();
         $data = $spotifyTracks->getFavoriteTracks($user);

@@ -17,21 +17,31 @@ class Request
     }
     public function get($user, $url)
     {
-        try {
-            $response = $this->client->get($url, [
-                'headers' => $this->header($user),
-            ]);
-        } catch (RequestException $e) {
-            $errorResponse = json_decode(
-                $e
-                    ->getResponse()
-                    ->getBody()
-                    ->getContents()
-            );
-            $status = $e->getCode();
-            $message = $errorResponse->error;
-        }
+        $response = $this->client->get($url, [
+            'headers' => $this->header($user),
+        ]);
+        return json_decode((string) $response->getBody());
+    }
 
+    public function delete($user, $url)
+    {
+        $response = $this->client->delete($url, [
+            'headers' => $this->header($user),
+        ]);
+        return json_decode((string) $response->getBody());
+    }
+    public function put($user, $url)
+    {
+        $response = $this->client->put($url, [
+            'headers' => $this->header($user),
+        ]);
+        return json_decode((string) $response->getBody());
+    }
+    public function post($user, $url)
+    {
+        $response = $this->client->post($url, [
+            'headers' => $this->header($user),
+        ]);
         return json_decode((string) $response->getBody());
     }
 

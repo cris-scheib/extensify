@@ -50,7 +50,7 @@ class SyncFavoriteTracks extends Command
             'expiration_token'
         )->get();
         foreach ($users as $user) {
-            $tracks->syncFavoriteTracks($user);
+            $tracks->syncFavorite($user);
         }
     }
 }

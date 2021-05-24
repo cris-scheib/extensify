@@ -50,7 +50,7 @@ class SyncFollowedArtists extends Command
             'expiration_token'
         )->get();
         foreach ($users as $user) {
-            $artists->syncFollowedArtists($user);
+            $artists->syncFollowed($user);
         }
     }
 }

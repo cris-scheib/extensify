@@ -12,6 +12,15 @@
             :key="artist.id"
           >
             <b-card>
+              <div @click="followUnfollow(artist)" class="follow-action">
+                <b-icon
+                  icon="heart-fill"
+                  :class="artist.follow ? 'heart-icon' : 'heart-icon-follow'"
+                  tabindex="0"
+                  v-b-tooltip.hover
+                  :title="artist.follow ? 'Unfollow' : 'Follow'"
+                ></b-icon>
+              </div>
               <b-link
                 :href="'https://open.spotify.com/artist/' + artist.spotify_id"
                 target="_blank"
@@ -47,9 +56,22 @@ export default {
   methods: {
     getArtists() {
       this.$api
-        .get("/favorites/artists")
+        .get("/recommendations/")
         .then((response) => {
           this.artists = response.data;
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
+    },
+       followUnfollow(artist) {
+      this.$api
+        .post(artist.follow ? "/followed/unfollow" : "/followed/follow", {
+          artist: artist.spotify_id,
+        })
+        .then(() => {
+          const index = this.artists.findIndex((x) => x.id === artist.id);
+          this.artists[index].follow = !this.artists[index].follow;
         })
         .catch(({ response }) => {
           console.log(response);

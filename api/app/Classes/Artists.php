@@ -26,23 +26,46 @@ class Artists
         $this->userFollowedArtistModel = new UserFollowedArtist();
     }
 
-    public function syncFavoriteArtists($user)
+    public function unfollow($user, $artist)
     {
-        $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getFavoriteArtists($user);
+        $spotifyArtists = new SpotifyArtists();
+        return $spotifyArtists->unfollow($user, $artist);
+    }
+    public function follow($user, $artist)
+    {
+        $spotifyArtists = new SpotifyArtists();
+        return $spotifyArtists->follow($user, $artist);
+    }
+
+    public function getArtist($user, $artist)
+    {
+        $spotifyArtists = new SpotifyArtists();
+        return $spotifyArtists->getArtist($user, $artist);
+    }
+    public function syncFavorite($user)
+    {
+        $spotifyArtists = new SpotifyArtists();
+        $data = $spotifyArtists->getFavorite($user);
         $this->syncData($user, $data, $this->userFavoriteArtistModel);
     }
 
-    public function syncFollowedArtists($user)
+    public function syncFollowed($user)
     {
-        $apotifyArtists = new SpotifyArtists();
-        $data = $apotifyArtists->getFollowedArtists($user);
+        $spotifyArtists = new SpotifyArtists();
+        $data = $spotifyArtists->getFollowed($user);
         $this->syncData($user, $data->artists, $this->userFollowedArtistModel);
+        while ($data->artists->next !== null) {
+            $this->syncData(
+                $user,
+                $data->artists,
+                $this->userFollowedArtistModel
+            );
+            $data = $spotifyArtists->getFollowed($user, $data->artists->next);
+        }
     }
 
     private function syncData($user, $data, $model)
     {
-        
         DB::beginTransaction();
         try {
             foreach ($data->items as $spotifyArtist) {
@@ -61,12 +84,10 @@ class Artists
                     ->where('user_id', $user->id)
                     ->first();
                 if ($userArtist === null) {
-                    $userArtist = $model->create(
-                        [
-                            'artist_id' => $artist->id,
-                            'user_id' => $user->id,
-                        ]
-                    );
+                    $userArtist = $model->create([
+                        'artist_id' => $artist->id,
+                        'user_id' => $user->id,
+                    ]);
                 }
                 foreach ($spotifyArtist->genres as $spotifyGenre) {
                     $genre = $this->genreModel
@@ -92,7 +113,6 @@ class Artists
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
         }
     }
 }

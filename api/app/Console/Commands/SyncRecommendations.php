@@ -4,24 +4,24 @@ namespace App\Console\Commands;
 
 use Helpers;
 use Illuminate\Console\Command;
-use App\Classes\Artists;
+use App\Classes\Recommendations;
 use App\Models\User;
 
-class SyncFavoriteArtists extends Command
+class SyncRecommendations extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sync:favorite-artists';
+    protected $signature = 'sync:recommendations';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Cron to sync all favorites artists';
+    protected $description = 'Cron to sync the recommendations';
 
     public static $process_busy = false;
 
@@ -42,7 +42,7 @@ class SyncFavoriteArtists extends Command
      */
     public function handle()
     {
-        $artists = new Artists();
+        $recommendations = new Recommendations();
         $users = User::select(
             'id',
             'token',
@@ -50,7 +50,7 @@ class SyncFavoriteArtists extends Command
             'expiration_token'
         )->get();
         foreach ($users as $user) {
-            $artists->syncFavorite($user);
+            $recommendations->syncRecommendations($user);
         }
     }
 }

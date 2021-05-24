@@ -154,12 +154,11 @@ class Auth
         }
 
         $body = json_decode((string) $response->getBody());
-        
+
         $user->update([
             'token' => $body->access_token,
             'refresh_token' => $body->refresh_token,
             'expiration_token' => Carbon::now()->addHour(),
         ]);
-        
     }
 }

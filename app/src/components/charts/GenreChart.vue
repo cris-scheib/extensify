@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="chart"></canvas>
+    <canvas id="genre"></canvas>
   </div>
 </template>
 
@@ -41,6 +41,7 @@ export default {
           ],
         },
         options: {
+          responsive: true,
           scale: {
             ticks: {
               beginAtZero: true,
@@ -59,11 +60,10 @@ export default {
   methods: {
     getFavoriteGenres() {
       this.$api.get("/reports/favorite-genres").then((response) => {
-        console.log(response.data.genre);
         this.data.data.labels = response.data.genre;
         this.data.data.datasets[0].data = response.data.tracks;
          this.data.data.datasets[1].data = response.data.artists;
-        const ctx = document.getElementById("chart");
+        const ctx = document.getElementById("genre");
         new Chart(ctx, this.data);
       });
     },

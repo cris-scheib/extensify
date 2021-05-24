@@ -27,7 +27,7 @@ class TracksController extends Controller
             })
             ->count();
         if ($userFavoriteTracks == 0) {
-            $this->tracks->syncFavoriteTracks($user);
+            $this->tracks->syncFavorite($user);
         }
         $userFavoriteTracks = $this->trackModel
             ->with('artist.genres')
