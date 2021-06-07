@@ -46,7 +46,7 @@ class Recommendations
                     ->format('Y-m-d H:i:s'),
                 Carbon::now()->format('Y-m-d H:i:s'),
             ])
-            ->take(5)
+            ->take(8)
             ->get();
 
         foreach ($artists as $artist) {
@@ -61,7 +61,6 @@ class Recommendations
                 $this->recommendationModel,
                 $artist->seed
             );
-            echo 'ok \n';
         }
     }
 

@@ -88,6 +88,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
                 'as' => 'reports.frequency',
                 'uses' => 'ReportsController@Frequency',
             ]);
+            $router->get('/week-genres', [
+                'as' => 'reports.week',
+                'uses' => 'ReportsController@WeekGenres',
+            ]);
            
         }
     );
