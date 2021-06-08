@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;600&display=swap");
 
 body {
   background-color: #121212;
@@ -133,6 +133,53 @@ body {
   border: 2px solid #121212;
 }
 
-p, label, select, h4{
+p,
+label,
+select,
+h4,
+h5 {
   color: white;
+}
+.btn-filter {
+  background-color: #121212;
+  border: 2px solid #4e4e4e;
+  border-radius: 3em;
+  padding: 0em 2em;
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+.btn-filter:hover,
+.btn-filter:active,
+.btn-filter:focus {
+  background-color: #121212;
+  border: 2px solid #4e4e4e;
+}
+.modal-content {
+  background-color: #121212;
+}
+
+.b-form-datepicker {
+  background-color: #121212;
+}
+.b-form-datepicker .form-control,
+.b-form-datepicker .bi-calendar-fill,
+.b-form-datepicker .bi-calendar {
+  color: white;
+  background-color: #121212;
+}
+.b-form-datepicker .dropdown-menu,
+.b-calendar-grid,
+.b-form-btn-label-control:focus,
+.b-form-btn-label-control.focus {
+  background-color: #121212;
+}
+.b-calendar-grid-help {
+  display: none;
+}
+.form-control.focus {
+  color: white !important;
+  background-color: #121212 !important;
+  border-color: white !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.2rem rgb(255 255 255 / 25%) !important;
 }

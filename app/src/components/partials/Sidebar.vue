@@ -2,7 +2,7 @@
   <div class="sidebar" v-bind:class="{ colapsed: colapsed }">
     <nav>
       <b-nav vertical>
-        <h3 class="title">Extesify</h3>
+        <h3 class="title">Extensify</h3>
         <b-button class="btn-sidebar" @click="colapsed = !colapsed">
           <b-icon v-if="colapsed" icon="chevron-double-right"></b-icon>
           <b-icon v-else icon="chevron-double-left"></b-icon>
