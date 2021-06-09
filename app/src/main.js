@@ -5,6 +5,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
+import JsonCSV from 'vue-json-csv'
 
 require('../public/css/main.css');
 const api = axios.create({
@@ -26,6 +27,8 @@ Vue.api = Vue.prototype.$api = api
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.component('downloadCsv', JsonCSV)
+
 
 new Vue({
     router,

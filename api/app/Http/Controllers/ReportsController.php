@@ -10,7 +10,6 @@ use App\Models\History;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
-
 class ReportsController extends Controller
 {
     private $genreModel;
@@ -105,6 +104,36 @@ class ReportsController extends Controller
             'labels' => $labels,
             'frequency' => $frequency,
         ];
+        return response()->json($data);
+    }
+
+    public function WeekGenres()
+    {
+        $labels = [];
+        $frequency = [];
+        $genres = $this->historyModel
+            ->selectRaw("genres.id as genre, count('genre'), genres.name")
+            ->join('tracks', 'history.track_id', 'tracks.id')
+            ->join('artists', 'artists.id', 'tracks.artist_id')
+            ->join('artist_genre', 'artist_genre.artist_id', 'artists.id')
+            ->join('genres', 'genres.id', 'artist_genre.genre_id')
+            ->groupBy('genre')
+            ->orderBy('count', 'DESC')
+            ->whereBetween('history.played_at', [
+                Carbon::now()
+                    ->subDays(14)
+                    ->format('Y-m-d H:i:s'),
+                Carbon::now()->format('Y-m-d H:i:s'),
+            ])
+            ->take(8)
+            ->get()
+            ->toArray();
+
+        $data = [
+            'labels' => array_column($genres, 'name'),
+            'frequency' => array_column($genres, 'count'),
+        ];
+
         return response()->json($data);
     }
 }

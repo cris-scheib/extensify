@@ -3,6 +3,33 @@
     <Layout>
       <b-container fluid class="pb-2">
         <div class="d-flex justify-content-end mt-3">
+          <div class="mr-auto">
+            <b-button
+              v-b-modal.modal
+              class="btn-filter"
+              v-b-tooltip.hover.bottom
+              title="Filter"
+            >
+              <b-icon icon="funnel-fill"></b-icon>
+            </b-button>
+            <b-button
+              @click="exportPDF"
+              class="btn-filter"
+              v-b-tooltip.hover.bottom
+              title="Export PDF"
+            >
+              <b-icon icon="box-arrow-up-right"></b-icon>
+            </b-button>
+            <download-csv
+              class="btn btn-filter"
+              :data="dataExport"
+              name="history.csv"
+              v-b-tooltip.hover.bottom
+              title="Dowload CSV"
+            >
+              <b-icon icon="box-arrow-down"></b-icon>
+            </download-csv>
+          </div>
           <b-pagination
             v-model="currentPage"
             :total-rows="rows"
@@ -39,6 +66,28 @@
             >
           </template>
         </b-table>
+        <b-modal id="modal" title="History Filter" @ok="getHistory">
+          <b-row>
+            <b-col>
+              <b-form-datepicker
+                id="start-datepicker"
+                v-model="start"
+                locale="en"
+                class="mb-2"
+                placeholder="Select a start date"
+              ></b-form-datepicker>
+            </b-col>
+            <b-col>
+              <b-form-datepicker
+                id="end-datepicker"
+                v-model="end"
+                class="mb-2"
+                locale="en"
+                placeholder="Select a end date"
+              ></b-form-datepicker>
+            </b-col>
+          </b-row>
+        </b-modal>
       </b-container>
     </Layout>
   </div>
@@ -46,6 +95,9 @@
 
 <script>
 import Layout from "../partials/Layout";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+
 export default {
   components: { Layout },
   data() {
@@ -53,8 +105,11 @@ export default {
       history: [],
       fields: [],
       currentPage: 1,
+      dataExport: [],
       rows: null,
       perPage: null,
+      start: null,
+      end: null,
     };
   },
   watch: {
@@ -63,20 +118,41 @@ export default {
     },
   },
   methods: {
+    exportPDF() {
+      const doc = new jsPDF();
+
+      let body = [];
+      for (let data of this.dataExport) {
+        body.push([data.played_at, data.track, data.artist]);
+      }
+      doc.text("History", 15, 10);
+      doc.autoTable({
+        head: [["Date", "Track", "Artist"]],
+        body: body,
+      });
+      doc.output("dataurlnewwindow");
+    },
     getHistory() {
+      const url =
+        "/history?page=" +
+        this.currentPage +
+        (this.start === null ? "" : "&start=" + this.start) +
+        (this.end === null ? "" : "&end=" + this.end);
       this.$api
-        .get("/history?page=" + this.currentPage)
+        .get(url)
         .then((response) => {
-          console.log(response.data);
-          this.history = response.data.data;
+          this.history = response.data.history.data;
           this.fields = ["date", "track", "artist"];
-          this.rows = response.data.total;
-          this.currentPage = response.data.current_page;
-          this.perPage = response.data.per_page;
+          this.rows = response.data.history.total;
+          this.currentPage = response.data.history.current_page;
+          this.perPage = response.data.history.per_page;
+          this.dataExport = response.data.export;
         })
         .catch(({ response }) => {
-          if (response.status === 401) {
-            this.$router.push("/unauthorized");
+          if (response !== undefined) {
+            if (response.status === 401) {
+              this.$router.push("/unauthorized");
+            }
           }
         });
     },
@@ -110,6 +186,7 @@ export default {
 }
 .page-item.active {
   background-color: white;
+  margin-bottom: 3px;
 }
 .page-item.active .page-link {
   color: #121212 !important;

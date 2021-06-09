@@ -17,7 +17,7 @@ class HistoryController extends Controller
         $this->history = $history;
     }
 
-    public function Get()
+    public function Get(Request $request)
     {
         $user = Cache::get('user');
         $userHistory = $this->historyModel
@@ -27,16 +27,41 @@ class HistoryController extends Controller
             $this->history->syncHistory($user);
         }
         $userHistory = $this->historyModel
-            ->selectRaw(
-                "to_char(history.played_at, 'DD/MM/YYYY HH24:MI:SS') as date, tracks.name as track, 
-                tracks.spotify_id as track_spotify, artists.name as artist, 
-                artists.spotify_id as artist_spotify"
-            )
             ->join('tracks', 'tracks.id', '=', 'history.track_id')
             ->join('artists', 'artists.id', '=', 'tracks.artist_id')
             ->where('history.user_id', $user->id)
-            ->orderby('history.played_at', 'desc')
+            ->orderby('history.played_at', 'desc');
+
+        if ($request->input('start') !== null) {
+            $userHistory = $userHistory->whereDate(
+                'history.played_at',
+                '>=',
+                $request->input('start')
+            );
+        }
+        if ($request->input('end') !== null) {
+            $userHistory = $userHistory->whereDate(
+                'history.played_at',
+                '<=',
+                $request->input('end')
+            );
+        }
+        $export = $userHistory
+            ->selectRaw(
+                'history.played_at, tracks.name as track, artists.name as artist'
+            )
+            ->get();
+        $history = $userHistory
+            ->selectRaw(
+                "history.played_at as date, tracks.name as track, 
+            tracks.spotify_id as track_spotify, artists.name as artist, 
+            artists.spotify_id as artist_spotify"
+            )
             ->paginate(10);
-        return response()->json($userHistory);
+        $data = [
+            'export' => $export,
+            'history' => $history,
+        ];
+        return response()->json($data, 200);
     }
 }
