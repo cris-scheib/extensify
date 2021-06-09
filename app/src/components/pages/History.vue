@@ -20,14 +20,15 @@
             >
               <b-icon icon="box-arrow-up-right"></b-icon>
             </b-button>
-            <b-button
-              @click="downloadCSV"
-              class="btn-filter"
+            <download-csv
+              class="btn btn-filter"
+              :data="dataExport"
+              name="history.csv"
               v-b-tooltip.hover.bottom
               title="Dowload CSV"
             >
               <b-icon icon="box-arrow-down"></b-icon>
-            </b-button>
+            </download-csv>
           </div>
           <b-pagination
             v-model="currentPage"
@@ -104,7 +105,7 @@ export default {
       history: [],
       fields: [],
       currentPage: 1,
-      export: [],
+      dataExport: [],
       rows: null,
       perPage: null,
       start: null,
@@ -121,9 +122,8 @@ export default {
       const doc = new jsPDF();
 
       let body = [];
-
-      for (let data of this.export) {
-        body.push([data.date, data.track, data.artist]);
+      for (let data of this.dataExport) {
+        body.push([data.played_at, data.track, data.artist]);
       }
       doc.text("History", 15, 10);
       doc.autoTable({
@@ -146,7 +146,7 @@ export default {
           this.rows = response.data.history.total;
           this.currentPage = response.data.history.current_page;
           this.perPage = response.data.history.per_page;
-          this.export = response.data.export;
+          this.dataExport = response.data.export;
         })
         .catch(({ response }) => {
           if (response !== undefined) {

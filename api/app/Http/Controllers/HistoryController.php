@@ -27,11 +27,6 @@ class HistoryController extends Controller
             $this->history->syncHistory($user);
         }
         $userHistory = $this->historyModel
-            ->selectRaw(
-                "history.played_at as date, tracks.name as track, 
-                tracks.spotify_id as track_spotify, artists.name as artist, 
-                artists.spotify_id as artist_spotify"
-            )
             ->join('tracks', 'tracks.id', '=', 'history.track_id')
             ->join('artists', 'artists.id', '=', 'tracks.artist_id')
             ->where('history.user_id', $user->id)
@@ -51,9 +46,21 @@ class HistoryController extends Controller
                 $request->input('end')
             );
         }
+        $export = $userHistory
+            ->selectRaw(
+                'history.played_at, tracks.name as track, artists.name as artist'
+            )
+            ->get();
+        $history = $userHistory
+            ->selectRaw(
+                "history.played_at as date, tracks.name as track, 
+            tracks.spotify_id as track_spotify, artists.name as artist, 
+            artists.spotify_id as artist_spotify"
+            )
+            ->paginate(10);
         $data = [
-            'export' => $userHistory->get(),
-            'history' => $userHistory->paginate(10),
+            'export' => $export,
+            'history' => $history,
         ];
         return response()->json($data, 200);
     }

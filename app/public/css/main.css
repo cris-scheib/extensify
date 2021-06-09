@@ -137,7 +137,8 @@ p,
 label,
 select,
 h4,
-h5 {
+h5,
+.bi-box-arrow-down {
   color: white;
 }
 .btn-filter {
