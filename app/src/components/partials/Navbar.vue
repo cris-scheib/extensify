@@ -7,9 +7,9 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav class="m-auto">
-       <b-nav-item to="/">Home</b-nav-item>
-        <b-nav-item to="/about">About</b-nav-item>
-        <b-nav-item to="/documentation">Documentation</b-nav-item>
+       <!-- <b-nav-item to="/">Home</b-nav-item> -->
+        <!-- <b-nav-item to="/about">About</b-nav-item> -->
+        <!-- <b-nav-item to="/documentation">Documentation</b-nav-item> -->
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->

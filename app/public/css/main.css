@@ -6,8 +6,8 @@ body {
 }
 
 .btn-primary {
-  background-color: #1abd53;
-  border: 2px solid #1abd53;
+  background-color: #1abd53 !important;
+  border: 2px solid #1abd53 !important;
 }
 
 .btn-primary:hover,
@@ -182,5 +182,32 @@ h5,
   background-color: #121212 !important;
   border-color: white !important;
   outline: 0 !important;
-  box-shadow: 0 0 0 0.2rem rgb(255 255 255 / 25%) !important;
+  box-shadow: 0 0 0 0.2rem rgb(26 189 83 / 22%) !important;
+}
+
+.btn-outline-primary {
+  color: #1abd53 !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:active {
+  background-color: #083e1b !important;
+}
+.btn-outline-primary:focus,
+.btn-outline-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgb(26 189 83 / 22%);
+}
+.b-calendar-grid,
+.b-calendar-grid:focus {
+  box-shadow: none;
+  border: none;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #1abd53;
+  border-color: #1abd53;
+  box-shadow: 0 0 0 0.2rem rgb(26 189 83 / 22%);
+}
+.bg-light {
+  background-color: #101010 !important;
 }
