@@ -6,7 +6,6 @@
                 analyze your music preferences</h1>
                 <div class="actions">
                   <RouterLink class="btn btn-primary" to="/login">Try it</RouterLink>
-                    <!-- <NuxtLink class="btn btn-secundary" to="/about">About</NuxtLink> -->
                 </div>
         </div>
     </div>

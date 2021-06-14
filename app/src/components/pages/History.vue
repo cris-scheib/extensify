@@ -74,6 +74,8 @@
                 v-model="start"
                 locale="en"
                 class="mb-2"
+                :max="max"
+                reset-button
                 placeholder="Select a start date"
               ></b-form-datepicker>
             </b-col>
@@ -83,6 +85,8 @@
                 v-model="end"
                 class="mb-2"
                 locale="en"
+                 :max="max"
+                reset-button
                 placeholder="Select a end date"
               ></b-form-datepicker>
             </b-col>
@@ -110,6 +114,7 @@ export default {
       perPage: null,
       start: null,
       end: null,
+      max: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
     };
   },
   watch: {
@@ -133,11 +138,12 @@ export default {
       doc.output("dataurlnewwindow");
     },
     getHistory() {
+      console.log(this.start);
       const url =
         "/history?page=" +
         this.currentPage +
-        (this.start === null ? "" : "&start=" + this.start) +
-        (this.end === null ? "" : "&end=" + this.end);
+        (this.start === null || this.start === "" ? "" : "&start=" + this.start) +
+        (this.end === null || this.end === ""  ? "" : "&end=" + this.end);
       this.$api
         .get(url)
         .then((response) => {
@@ -191,5 +197,21 @@ export default {
 .page-item.active .page-link {
   color: #121212 !important;
   border-color: white !important;
+}
+.b-calendar-footer button {
+  border-color: #1abd53;
+  color: #1abd53;
+}
+.b-calendar-footer button:hover,
+.b-calendar-footer button:active {
+  background-color: #1abd53 !important;
+  border-color: #1abd53 !important;
+  color: white !important;
+}
+.b-calendar-footer button:focus {
+  box-shadow: 0 0 0 0.2rem rgb(26 189 83 / 22%) !important;
+}
+.btn-outline-primary {
+  box-shadow: unset !important;
 }
 </style>
